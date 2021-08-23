@@ -13,6 +13,17 @@ function App({}: AppProps) {
     return () => clearTimeout(timer);
   }, [count, setCount]);
   // Return the App component.
+    const [article, setArticle] = useState([{}])
+    useEffect(()=> {
+      fetch("/get").then(
+        res => res.json()
+      ).then(
+        article => {
+          setArticle(article)
+          console.log(article)
+        }
+      )
+    }, [])
   return (
     <div className="App">
       <header className="App-header">
@@ -33,6 +44,7 @@ function App({}: AppProps) {
             Learn React
           </a>
         </p>
+        <p>{article}</p>
       </header>
     </div>
   );
