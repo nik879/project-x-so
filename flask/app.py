@@ -31,8 +31,8 @@ articles_schema = ArticleSchema(many=True)
 
 @app.route('/get', methods = ['Get'])
 def get_articles():  # put application's code here
-    all_articles = Articles.query.all()
-    results= articles_schema.dump(all_articles)
+   # all_articles = Articles.query.all()
+   #results= articles_schema.dump(all_articles
     return jsonify(results)
 
 
