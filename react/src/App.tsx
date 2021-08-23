@@ -44,7 +44,7 @@ function App({}: AppProps) {
             Learn React
           </a>
         </p>
-        <p>{article}</p>
+
       </header>
     </div>
   );
