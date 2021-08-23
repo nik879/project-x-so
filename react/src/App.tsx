@@ -14,7 +14,7 @@ function App({}: AppProps) {
   }, [count, setCount]);
   // Return the App component.
 
-    const [article, setArticle] = useState([{}])
+    const [article, setArticle] = useState([{body:"body",date:"today",id:0,title:"title"}])
     useEffect(()=> {
       fetch("/get").then(
         res => res.json()
@@ -45,8 +45,13 @@ function App({}: AppProps) {
             Learn React
           </a>
         </p>
-        <p>{article}</p>
-
+        {(typeof article.map(id => id) === 'undefined') ? (
+            <p>Loading...</p>
+        ) : (
+             article.map((id, i) => (
+                 <p key={i}>{id}</p>
+             ))
+        )}
       </header>
     </div>
   );
