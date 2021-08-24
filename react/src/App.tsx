@@ -16,7 +16,7 @@ function App({}: AppProps) {
 
     const [article, setArticle] = useState([{body:"body",date:"today",id:0,title:"title"}])
     useEffect(()=> {
-      fetch("/get").then(
+      fetch("/api/get").then(
         res => res.json()
       ).then(
         article => {
@@ -45,13 +45,13 @@ function App({}: AppProps) {
             Learn React
           </a>
         </p>
-        {(typeof article.map(id => id) === 'undefined') ? (
+{/*        {(typeof article.map(id => id) === 'undefined') ? (
             <p>Loading...</p>
         ) : (
              article.map((id, i) => (
                  <p key={i}>{id}</p>
              ))
-        )}
+        )}*/}
       </header>
     </div>
   );
