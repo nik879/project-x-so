@@ -27,7 +27,7 @@ export default {
         req.url = req.url.replace('/api/', '');
 
         return proxy.web(req, res, {
-          hostname: 'localhost',
+          hostname: '0.0.0.0',
           port: 5000,
         });
       },
