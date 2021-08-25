@@ -1,60 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ArticleList from "./components/ArticleList";
+import Form from "./components/Form";
 
 interface AppProps {}
 
 function App({}: AppProps) {
   // Create the count state.
-  const [count, setCount] = useState(0);
-  // Create the counter (+1 every second).
-  useEffect(() => {
-    const timer = setTimeout(() => setCount(count + 1), 1000);
-    return () => clearTimeout(timer);
-  }, [count, setCount]);
-  // Return the App component.
+  const [articles, setArticles] = useState([]);
+  const [editedArticle, setEditedArticle] = useState(null);
 
-    const [article, setArticle] = useState([{body:"body",date:"today",id:0,title:"title"}])
-    useEffect(()=> {
-      fetch("/api/get").then(
-        res => res.json()
-      ).then(
-        article => {
-          setArticle(article)
-          console.log(article)
-        }
-      )
-    }, [])
+  useEffect(() => {
+    fetch("http://127.0.0.1:5000/get", {
+      'method': 'GET',
+      headers: {
+        'Content-Type': 'applications/json'
+      }
+    })
+        .then(resp => resp.json())
+        .then(resp => setArticles(resp))
+        .then(error => console.log())
+  }, []);
+ 
+  const editArcticle = (article) => {
+    setEditedArticle(article)
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <p>
-          Page has been open for <code>{count}</code> seconds.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-{/*        {(typeof article.map(id => id) === 'undefined') ? (
-            <p>Loading...</p>
-        ) : (
-             article.map((id, i) => (
-                 <p key={i}>{id}</p>
-             ))
-        )}*/}
-      </header>
+      <h1>Flask and React JS Course</h1>
+
+      <ArticleList articles = {articles} editArticle = {editArcticle}/>
+      <Form article={editedArticle}/>
     </div>
   );
+
+
 }
 
 export default App;

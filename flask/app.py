@@ -3,10 +3,12 @@ from flask import Flask,jsonify,request
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 from flask_marshmallow import Marshmallow
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI']= 'mysql://root''@localhost/flask'
+app.config['SQLALCHEMY_DATABASE_URI']= 'mysql://root:root@localhost/flask'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
 
 db = SQLAlchemy(app)
@@ -55,6 +57,28 @@ def add_article():
     db.session.add(articles)
     db.session.commit()
     return article_schema.jsonify(articles)
+
+@app.route('/update/<id>/', methods = ['PUT'])
+def update_article(id):
+    article = Articles.query.get(id)
+
+    title = request.json['title']
+    body = request.json['body']
+
+    article.title = title
+    article.body = body
+
+    db.session.commit()
+    return article_schema.jsonify(article)
+
+@app.route('/delete/<id>/', methods = ['DELETE'])
+def article_delete(id):
+    article = Articles.query.get (id)
+    db.session.delete(article)
+    db.session.commit()
+
+    return article_schema.jsonify()
+
 
 
 
